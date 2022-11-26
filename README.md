@@ -1,8 +1,6 @@
 ## Create database script
 
 ```sql
-import foobar
-
 create table ACCOUNTS
 (
   USER_NAME VARCHAR(20) not null,
