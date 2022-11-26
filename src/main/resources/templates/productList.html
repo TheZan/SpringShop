@@ -12,8 +12,8 @@
 
 <div class="page-title">Product List</div>
 
-<!--/*@thymesVar id="paginationProducts" type="OnlineShopProject.OnlineShop.pagination.PaginationResult<ProductInfo>"*/-->
-<div class="product-preview-container" th:each="prodInfo : ${paginationProducts.getList()}">
+<!--/*@thymesVar id="products" type="java.util.List<OnlineShopProject.OnlineShop.entity.Product>"*/-->
+<div class="product-preview-container" th:each="prodInfo : ${products}">
     <ul>
         <li><img class="product-image"
                  th:src="@{|/productImage?code=${prodInfo.getCode()}|}" /></li>
@@ -34,7 +34,7 @@
 </div>
 
 <br/>
-<div class="page-navigator" th:if="${paginationProducts.totalPages > 1}">
+<!--<div class="page-navigator" th:if="${paginationProducts.totalPages > 1}">
     <th:block th:each="page : ${paginationProducts.navigationPages}">
 
         <a th:href="@{|/productList?page=${page}|}" th:if="${page != -1}"
@@ -43,9 +43,7 @@
         <span class="nav-item" th:if="${page == -1}"> ... </span>
 
     </th:block>
-</div>
-
-<th:block th:include="/_footer"></th:block>
+</div>-->
 
 </body>
 </html>

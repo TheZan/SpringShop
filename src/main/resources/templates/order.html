@@ -32,20 +32,14 @@
     <tr>
         <th>Product Code</th>
         <th>Product Name</th>
-        <th>Quantity</th>
         <th>Price</th>
-        <th>Amount</th>
     </tr>
     <tr th:each="orderDetailInfo : ${orderInfo.details}">
-        <td th:utext="${orderDetailInfo.productCode}"></td>
-        <td th:utext="${orderDetailInfo.productName}"></td>
-        <td th:utext="${orderDetailInfo.quanity}"></td>
-        <td th:utext="${#numbers.formatDecimal(orderDetailInfo.price,3,2,'COMMA')}"></td>
-        <td th:utext="${#numbers.formatDecimal(orderDetailInfo.amount,3,2,'COMMA')}"></td>
+        <td th:utext="${orderDetailInfo.getProduct().getCode()}"></td>
+        <td th:utext="${orderDetailInfo.getProduct().getName()}"></td>
+        <td th:utext="${#numbers.formatDecimal(orderDetailInfo.getProduct().getPrice(),3,2,'COMMA')}"></td>
     </tr>
 </table>
-
-<th:block th:include="/_footer"></th:block>
 
 </body>
 </html>

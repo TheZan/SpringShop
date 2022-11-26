@@ -9,6 +9,9 @@ import OnlineShopProject.OnlineShop.entity.OrderDetail;
 import OnlineShopProject.OnlineShop.entity.Product;
 import OnlineShopProject.OnlineShop.model.*;
 import OnlineShopProject.OnlineShop.pagination.PaginationResult;
+import OnlineShopProject.OnlineShop.repository.OrderDetailRepository;
+import OnlineShopProject.OnlineShop.repository.OrderRepository;
+import OnlineShopProject.OnlineShop.repository.ProductRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -19,28 +22,22 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @Repository
 public class OrderDAO {
-
-    //@Autowired
-    private SessionFactory sessionFactory;
-
     @Autowired
-    private ProductDAO productDAO;
+    private OrderRepository orderRepository;
+    @Autowired
+    private ProductRepository productRepository;
+    @Autowired
+    private OrderDetailRepository orderDetailRepository;
 
     private int getMaxOrderNum() {
-        String sql = "Select max(o.orderNum) from " + Order.class.getName() + " o ";
-        Session session = this.sessionFactory.getCurrentSession();
-        Query<Integer> query = session.createQuery(sql, Integer.class);
-        Integer value = (Integer) query.getSingleResult();
+        Integer value = orderRepository.findMaxOrderNum();
         if (value == null) {
             return 0;
         }
         return value;
     }
 
-    @Transactional(rollbackFor = Exception.class)
     public void saveOrder(CartInfo cartInfo) {
-        Session session = this.sessionFactory.getCurrentSession();
-
         int orderNum = this.getMaxOrderNum() + 1;
         Order order = new Order();
 
@@ -55,7 +52,7 @@ public class OrderDAO {
         order.setCustomerPhone(customerInfo.getPhone());
         order.setCustomerAddress(customerInfo.getAddress());
 
-        session.persist(order);
+        orderRepository.save(order);
 
         List<CartLineInfo> lines = cartInfo.getCartLines();
 
@@ -68,20 +65,34 @@ public class OrderDAO {
             detail.setQuanity(line.getQuantity());
 
             String code = line.getProductInfo().getCode();
-            Product product = this.productDAO.findProduct(code);
+            Product product = productRepository.findProductByCode(code);
             detail.setProduct(product);
 
-            session.persist(detail);
+            orderDetailRepository.save(detail);
         }
 
-        // Order Number!
         cartInfo.setOrderNum(orderNum);
-        // Flush
-        session.flush();
     }
 
-    // @page = 1, 2, ...
-    public PaginationResult<OrderInfo> listOrderInfo(int page, int maxResult, int maxNavigationPage) {
+    public List<Order> listOrder(){
+        return orderRepository.findAll();
+    }
+
+    public List<OrderDetail> listOrderDetails(String orderId){
+        return orderDetailRepository.findByOrderId(orderId);
+    }
+
+    public OrderInfo getOrderInfo(String orderId) {
+        Order order = orderRepository.findById(orderId).get();
+        if (order == null) {
+            return null;
+        }
+        return new OrderInfo(order.getId(), order.getOrderDate(), //
+                order.getOrderNum(), order.getAmount(), order.getCustomerName(), //
+                order.getCustomerAddress(), order.getCustomerEmail(), order.getCustomerPhone());
+    }
+
+    /*public PaginationResult<OrderInfo> listOrderInfo(int page, int maxResult, int maxNavigationPage) {
         String sql = "Select new " + OrderInfo.class.getName()//
                 + "(ord.id, ord.orderDate, ord.orderNum, ord.amount, "
                 + " ord.customerName, ord.customerAddress, ord.customerEmail, ord.customerPhone) " + " from "
@@ -119,6 +130,6 @@ public class OrderDAO {
         query.setParameter("orderId", orderId);
 
         return query.getResultList();
-    }
+    }*/
 
 }

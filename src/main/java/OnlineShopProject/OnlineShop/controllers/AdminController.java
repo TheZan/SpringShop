@@ -73,24 +73,13 @@ public class AdminController {
     }
 
     @RequestMapping(value = { "/admin/orderList" }, method = RequestMethod.GET)
-    public String orderList(Model model, //
-                            @RequestParam(value = "page", defaultValue = "1") String pageStr) {
-        int page = 1;
-        try {
-            page = Integer.parseInt(pageStr);
-        } catch (Exception e) {
-        }
-        final int MAX_RESULT = 5;
-        final int MAX_NAVIGATION_PAGE = 10;
+    public String orderList(Model model) {
+        var orders = orderDAO.listOrder();
 
-        PaginationResult<OrderInfo> paginationResult //
-                = orderDAO.listOrderInfo(page, MAX_RESULT, MAX_NAVIGATION_PAGE);
-
-        model.addAttribute("paginationResult", paginationResult);
+        model.addAttribute("orders", orders);
         return "orderList";
     }
 
-    // GET: Show product.
     @RequestMapping(value = { "/admin/product" }, method = RequestMethod.GET)
     public String product(Model model, @RequestParam(value = "code", defaultValue = "") String code) {
         ProductForm productForm = null;
@@ -139,7 +128,8 @@ public class AdminController {
         if (orderInfo == null) {
             return "redirect:/admin/orderList";
         }
-        List<OrderDetailInfo> details = this.orderDAO.listOrderDetailInfos(orderId);
+
+        var details = orderDAO.listOrderDetails(orderId);
         orderInfo.setDetails(details);
 
         model.addAttribute("orderInfo", orderInfo);

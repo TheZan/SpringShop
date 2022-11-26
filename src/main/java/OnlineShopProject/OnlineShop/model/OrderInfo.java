@@ -1,5 +1,7 @@
 package OnlineShopProject.OnlineShop.model;
 
+import OnlineShopProject.OnlineShop.entity.OrderDetail;
+
 import java.util.Date;
 import java.util.List;
 
@@ -15,7 +17,7 @@ public class OrderInfo {
     private String customerEmail;
     private String customerPhone;
 
-    private List<OrderDetailInfo> details;
+    private List<OrderDetail> details;
 
     public OrderInfo() {
 
@@ -100,12 +102,11 @@ public class OrderInfo {
         this.customerPhone = customerPhone;
     }
 
-    public List<OrderDetailInfo> getDetails() {
+    public List<OrderDetail> getDetails() {
         return details;
     }
 
-    public void setDetails(List<OrderDetailInfo> details) {
+    public void setDetails(List<OrderDetail> details) {
         this.details = details;
     }
-
 }

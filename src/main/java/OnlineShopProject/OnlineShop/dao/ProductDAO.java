@@ -2,6 +2,7 @@ package OnlineShopProject.OnlineShop.dao;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.NoResultException;
 
@@ -9,6 +10,7 @@ import OnlineShopProject.OnlineShop.entity.Product;
 import OnlineShopProject.OnlineShop.form.ProductForm;
 import OnlineShopProject.OnlineShop.model.ProductInfo;
 import OnlineShopProject.OnlineShop.pagination.PaginationResult;
+import OnlineShopProject.OnlineShop.repository.ProductRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -21,17 +23,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public class ProductDAO {
 
-    //@Autowired
-    private SessionFactory sessionFactory;
+    @Autowired
+    private ProductRepository productRepository;
 
     public Product findProduct(String code) {
         try {
-            String sql = "Select e from " + Product.class.getName() + " e Where e.code =:code ";
-
-            Session session = this.sessionFactory.getCurrentSession();
-            Query<Product> query = session.createQuery(sql, Product.class);
-            query.setParameter("code", code);
-            return (Product) query.getSingleResult();
+            var product = productRepository.findProductByCode(code);
+            return product;
         } catch (NoResultException e) {
             return null;
         }
@@ -47,8 +45,6 @@ public class ProductDAO {
 
     @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
     public void save(ProductForm productForm) {
-
-        Session session = this.sessionFactory.getCurrentSession();
         String code = productForm.getCode();
 
         Product product = null;
@@ -77,33 +73,18 @@ public class ProductDAO {
             }
         }
         if (isNew) {
-            session.persist(product);
+            productRepository.save(product);
         }
-        // If error in DB, Exceptions will be thrown out immediately
-        session.flush();
     }
 
-    public PaginationResult<ProductInfo> queryProducts(int page, int maxResult, int maxNavigationPage,
-                                                       String likeName) {
-        String sql = "Select new " + ProductInfo.class.getName() //
-                + "(p.code, p.name, p.price) " + " from "//
-                + Product.class.getName() + " p ";
-        if (likeName != null && likeName.length() > 0) {
-            sql += " Where lower(p.name) like :likeName ";
-        }
-        sql += " order by p.createDate desc ";
-        //
-        Session session = this.sessionFactory.getCurrentSession();
-        Query<ProductInfo> query = session.createQuery(sql, ProductInfo.class);
+    public List<Product> queryProducts(int page, int maxResult, int maxNavigationPage, String likeName) {
 
-        if (likeName != null && likeName.length() > 0) {
-            query.setParameter("likeName", "%" + likeName.toLowerCase() + "%");
+        if(likeName.isEmpty()){
+            return  productRepository.findAll();
         }
-        return new PaginationResult<ProductInfo>(query, page, maxResult, maxNavigationPage);
-    }
-
-    public PaginationResult<ProductInfo> queryProducts(int page, int maxResult, int maxNavigationPage) {
-        return queryProducts(page, maxResult, maxNavigationPage, null);
+        else{
+            return productRepository.findProductByName(likeName);
+        }
     }
 
 }
