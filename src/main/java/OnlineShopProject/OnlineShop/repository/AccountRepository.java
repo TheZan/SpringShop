@@ -1,10 +1,12 @@
 package OnlineShopProject.OnlineShop.repository;
 
 import OnlineShopProject.OnlineShop.entity.Account;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.Repository;
+import org.springframework.stereotype.Repository;
 
-public interface AccountRepository extends Repository<Account, String> {
-    @Query("SELECT ac FROM Account acc WHERE acc.userName = :username")
+@Repository
+public interface AccountRepository extends JpaRepository<Account, String> {
+    //@Query("SELECT ac FROM Account acc WHERE acc.userName = :username")
     Account findAccountByUserName(String username);
 }

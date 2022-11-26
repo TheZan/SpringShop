@@ -19,8 +19,6 @@ import javax.sql.DataSource;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private DataSource dataSource;
-    /*@Autowired
-    UserDetailsServiceImpl userDetailsService;*/
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -28,10 +26,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 
-        //auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
         auth.jdbcAuthentication().dataSource(dataSource).passwordEncoder(passwordEncoder)
                 .usersByUsernameQuery("select user_name, encryted_password, active from accounts where user_name=?")
-                .authoritiesByUsernameQuery("select u.user_name, ur.user_role from accounts u WHERE u.username=?");
+                .authoritiesByUsernameQuery("select u.user_name, u.user_role from accounts u WHERE u.user_name=?");
     }
 
     @Override
@@ -56,38 +53,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().logout().logoutUrl("/admin/logout").logoutSuccessUrl("/");
 
     }
-    /*@Autowired
-    private DataSource dataSource;
-
-    @Autowired
-    private LoginSuccessHandler loginSuccessHandler;
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                    .antMatchers("/catalog").access("hasRole('USER')")
-                    .antMatchers("/admin").permitAll()
-                    .antMatchers("/login", "/registration").permitAll()
-                    .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                    .loginPage("/login")
-                    .successHandler(loginSuccessHandler)
-                    .permitAll()
-                .and()
-                .logout()
-                    .logoutSuccessUrl("/login")
-                    .permitAll();
-
-        http.csrf().disable();
-    }
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication()
-                .dataSource(dataSource)
-                .passwordEncoder(NoOpPasswordEncoder.getInstance())
-                .usersByUsernameQuery("select username, password, active from users where username=?")
-                .authoritiesByUsernameQuery("select u.username, ur.roles from users u inner join user_role ur on u.id = ur.user_id where u.username=?");
-    }*/
 }

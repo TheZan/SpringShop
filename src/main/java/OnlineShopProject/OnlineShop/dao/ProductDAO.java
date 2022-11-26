@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public class ProductDAO {
 
-    @Autowired
+    //@Autowired
     private SessionFactory sessionFactory;
 
     public Product findProduct(String code) {

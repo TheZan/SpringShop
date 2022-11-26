@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public class AccountDAO {
 
-    @Autowired
+    //@Autowired
     private SessionFactory sessionFactory;
 
     public Account findAccount(String userName) {
