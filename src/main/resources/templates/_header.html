@@ -1,20 +1,56 @@
-<div class="header-container"
-     xmlns:th="http://www.thymeleaf.org"
+<div xmlns:th="http://www.thymeleaf.org"
      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 
-    <div class="site-name">Online Shop</div>
-
-    <div class="header-bar">
-        <th:block sec:authorize="isAuthenticated()">
-            Hello
-            <a th:href="@{/admin/accountInfo}" th:utext="${#request.userPrincipal.name}">..</a>
-            &nbsp;|&nbsp;
-            <a th:href="@{/admin/logout}">Logout</a>
-        </th:block>
-
-        <th:block sec:authorize="!isAuthenticated()">
-            <a th:href="@{/admin/login}">Login</a>
-        </th:block>
-    </div>
-
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Магазин видеокарт</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" th:href="@{/}">Главная <span class="sr-only"></span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" th:href="@{/productList}">
+                        Видеокарты
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" th:href="@{/shoppingCart}">
+                        Корзина
+                    </a>
+                </li>
+                <li class="nav-item active">
+                    <th:block sec:authorize="hasAnyRole('ROLE_MANAGER','ROLE_EMPLOYEE')">
+                        <a class="nav-link" th:href="@{/admin/orderList}">
+                            Покупки
+                        </a>
+                    </th:block>
+                </li>
+                <li class="nav-item active">
+                    <th:block sec:authorize="hasRole('ROLE_MANAGER')">
+                        <a class="nav-link" th:href="@{/admin/product}">
+                            Добавить товар
+                        </a>
+                    </th:block>
+                </li>
+                <li class="nav-item">
+                    <th:block sec:authorize="isAuthenticated()">
+                        <a class="nav-link" th:href="@{/admin/accountInfo}" th:utext="${#request.userPrincipal.name}">..</a>
+                    </th:block>
+                </li>
+                <li class="nav-item">
+                    <th:block sec:authorize="isAuthenticated()">
+                        <a class="nav-link" th:href="@{/admin/logout}">Выход</a>
+                    </th:block>
+                </li>
+                <li class="nav-item">
+                    <th:block sec:authorize="!isAuthenticated()">
+                        <a class="nav-link" th:href="@{/admin/login}">Авторизоваться</a>
+                    </th:block>
+                </li>
+            </ul>
+        </div>
+    </nav>
 </div>

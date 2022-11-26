@@ -12,7 +12,6 @@ import OnlineShopProject.OnlineShop.form.CustomerForm;
 import OnlineShopProject.OnlineShop.model.CartInfo;
 import OnlineShopProject.OnlineShop.model.CustomerInfo;
 import OnlineShopProject.OnlineShop.model.ProductInfo;
-import OnlineShopProject.OnlineShop.pagination.PaginationResult;
 import OnlineShopProject.OnlineShop.util.Utils;
 import OnlineShopProject.OnlineShop.validator.CustomerFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;

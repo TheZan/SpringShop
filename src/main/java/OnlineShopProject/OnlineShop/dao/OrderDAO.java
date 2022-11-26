@@ -8,7 +8,6 @@ import OnlineShopProject.OnlineShop.entity.Order;
 import OnlineShopProject.OnlineShop.entity.OrderDetail;
 import OnlineShopProject.OnlineShop.entity.Product;
 import OnlineShopProject.OnlineShop.model.*;
-import OnlineShopProject.OnlineShop.pagination.PaginationResult;
 import OnlineShopProject.OnlineShop.repository.OrderDetailRepository;
 import OnlineShopProject.OnlineShop.repository.OrderRepository;
 import OnlineShopProject.OnlineShop.repository.ProductRepository;

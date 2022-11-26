@@ -2,37 +2,34 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Product List</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/styles.css}">
+    <title>Список товаров</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 </head>
 <body>
 <th:block th:include="/_header"></th:block>
-<th:block th:include="/_menu"></th:block>
-
-<div class="page-title">Order Info</div>
 
 <div class="customer-info-container">
-    <h3>Customer Information:</h3>
+    <h3>Информация о покупателе:</h3>
     <ul>
-        <li>Name: <span th:utext="${orderInfo.customerName}"></span></li>
+        <li>Имя: <span th:utext="${orderInfo.customerName}"></span></li>
         <li>Email: <span th:utext="${orderInfo.customerEmail}"></span></li>
-        <li>Phone: <span th:utext="${orderInfo.customerPhone}"></span></li>
-        <li>Address: <span th:utext="${orderInfo.customerAddress}"></span></li>
+        <li>Телефон: <span th:utext="${orderInfo.customerPhone}"></span></li>
+        <li>Адрес: <span th:utext="${orderInfo.customerAddress}"></span></li>
     </ul>
-    <h3>Order Summary:</h3>
+    <h3>Сумма заказа:</h3>
     <ul>
-        <li>Total:
+        <li>Всего:
             <span class="total" th:utext="${#numbers.formatDecimal(orderInfo.amount,3,2,'COMMA')}">
                </span>
         </li>
     </ul>
 </div>
 <br/>
-<table border="1" style="width:100%">
+<table class="table table-hover" style="width:100%">
     <tr>
-        <th>Product Code</th>
-        <th>Product Name</th>
-        <th>Price</th>
+        <th>Код</th>
+        <th>Название</th>
+        <th>Цена</th>
     </tr>
     <tr th:each="orderDetailInfo : ${orderInfo.details}">
         <td th:utext="${orderDetailInfo.getProduct().getCode()}"></td>

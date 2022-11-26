@@ -9,7 +9,6 @@ import javax.persistence.NoResultException;
 import OnlineShopProject.OnlineShop.entity.Product;
 import OnlineShopProject.OnlineShop.form.ProductForm;
 import OnlineShopProject.OnlineShop.model.ProductInfo;
-import OnlineShopProject.OnlineShop.pagination.PaginationResult;
 import OnlineShopProject.OnlineShop.repository.ProductRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

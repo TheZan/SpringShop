@@ -2,20 +2,19 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Account Info</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/styles.css}">
+    <title>Личный кабинет</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 </head>
 <body>
 
 <th:block th:include="/_header"></th:block>
-<th:block th:include="/_menu"></th:block>
 
-<div class="page-title">Account Info</div>
-<div class="account-container">
+<div>Личный кабинет</div>
+<div>
     <ul>
-        <li>User Name: <span th:utext="${#request.userPrincipal.name}"></span></li>
+        <li>Имя пользователя: <span th:utext="${#request.userPrincipal.name}"></span></li>
         <li>
-            Role:
+            Роли:
             <ul>
                 <!--/*@thymesVar id="userDetails" type="org.springframework.security.core.userdetails.UserDetails"*/-->
                 <li th:each="auth : ${userDetails.authorities}" th:utext="${auth.authority}"></li>
