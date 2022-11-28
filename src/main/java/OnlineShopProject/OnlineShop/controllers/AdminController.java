@@ -121,6 +121,17 @@ public class AdminController {
         return "product";
     }
 
+    @RequestMapping(value = { "/admin/productRemove" }, method = RequestMethod.GET)
+    public String productRemove(Model model, @RequestParam(value = "code", defaultValue = "") String code) {
+        if (code != null && code.length() > 0) {
+            Product product = productDAO.findProduct(code);
+            if (product != null) {
+                productDAO.removeProduct(product);
+            }
+        }
+        return "redirect:/productList";
+    }
+
     @RequestMapping(value = { "/admin/product" }, method = RequestMethod.POST)
     public String productSave(Model model, //
                               @ModelAttribute("productForm") @Validated ProductForm productForm, //

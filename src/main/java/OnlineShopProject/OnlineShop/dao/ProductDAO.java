@@ -72,4 +72,7 @@ public class ProductDAO {
         }
     }
 
+    public void removeProduct(Product product){
+        productRepository.delete(product);
+    }
 }

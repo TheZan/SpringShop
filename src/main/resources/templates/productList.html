@@ -3,7 +3,7 @@
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <meta charset="UTF-8">
-    <title>Product List</title>
+    <title>Видеокарты</title>
     <link rel="stylesheet" type="text/css" th:href="@{/styles.css}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 </head>
@@ -31,6 +31,10 @@
                         <li>
                             <a style="color:red;"
                                th:href="@{|/admin/product?code=${prodInfo.getCode()}|}">Редактировать</a>
+                        </li>
+                        <li>
+                            <a style="color:red;"
+                               th:href="@{|/admin/productRemove?code=${prodInfo.getCode()}|}">Удалить</a>
                         </li>
                     </th:block>
                 </ul>
