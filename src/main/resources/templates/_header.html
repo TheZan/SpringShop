@@ -47,7 +47,12 @@
                 </li>
                 <li class="nav-item">
                     <th:block sec:authorize="!isAuthenticated()">
-                        <a class="nav-link" th:href="@{/admin/login}">Авторизоваться</a>
+                        <a class="nav-link" th:href="@{/admin/login}">Авторизация</a>
+                    </th:block>
+                </li>
+                <li class="nav-item">
+                    <th:block sec:authorize="!isAuthenticated()">
+                        <a class="nav-link" th:href="@{/admin/registration}">Регистрация</a>
                     </th:block>
                 </li>
             </ul>

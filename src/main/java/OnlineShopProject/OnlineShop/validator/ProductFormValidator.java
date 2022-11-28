@@ -1,7 +1,6 @@
 package OnlineShopProject.OnlineShop.validator;
 
 import OnlineShopProject.OnlineShop.dao.ProductDAO;
-import OnlineShopProject.OnlineShop.entity.Product;
 import OnlineShopProject.OnlineShop.form.ProductForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

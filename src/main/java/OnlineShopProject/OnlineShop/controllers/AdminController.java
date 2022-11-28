@@ -1,28 +1,24 @@
 package OnlineShopProject.OnlineShop.controllers;
 
-import java.util.List;
-
+import OnlineShopProject.OnlineShop.dao.AccountDAO;
 import OnlineShopProject.OnlineShop.dao.OrderDAO;
 import OnlineShopProject.OnlineShop.dao.ProductDAO;
 import OnlineShopProject.OnlineShop.entity.Product;
 import OnlineShopProject.OnlineShop.form.ProductForm;
+import OnlineShopProject.OnlineShop.form.RegistrationForm;
 import OnlineShopProject.OnlineShop.model.OrderInfo;
 import OnlineShopProject.OnlineShop.validator.ProductFormValidator;
-import org.apache.tomcat.util.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -38,24 +34,53 @@ public class AdminController {
     @Autowired
     private ProductFormValidator productFormValidator;
 
+    @Autowired
+    private AccountDAO accountDAO;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @InitBinder
     public void myInitBinder(WebDataBinder dataBinder) {
         Object target = dataBinder.getTarget();
         if (target == null) {
             return;
         }
-        System.out.println("Target=" + target);
 
         if (target.getClass() == ProductForm.class) {
             dataBinder.setValidator(productFormValidator);
         }
     }
 
-    // GET: Show Login Page
     @RequestMapping(value = { "/admin/login" }, method = RequestMethod.GET)
     public String login(Model model) {
-
         return "login";
+    }
+
+    @RequestMapping(value = { "/admin/registration" }, method = RequestMethod.GET)
+    public String registration(Model model) {
+        return "registration";
+    }
+
+    @RequestMapping(value = { "/admin/registration" }, method = RequestMethod.POST)
+    public String registration(Model model,
+                               @ModelAttribute("registrationForm") @Validated RegistrationForm registrationForm,
+                               BindingResult result) {
+
+        if (result.hasErrors()) {
+            return "registration";
+        }
+        try {
+            registrationForm.setPassword(passwordEncoder.encode(registrationForm.getPassword()));
+            if(!accountDAO.addAccount(registrationForm.ConvertToAccount())){
+                return "registration";
+            }
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", "");
+            return "registration";
+        }
+
+        return "redirect:/admin/login";
     }
 
     @RequestMapping(value = { "/admin/accountInfo" }, method = RequestMethod.GET)
@@ -96,7 +121,6 @@ public class AdminController {
         return "product";
     }
 
-    // POST: Save product
     @RequestMapping(value = { "/admin/product" }, method = RequestMethod.POST)
     public String productSave(Model model, //
                               @ModelAttribute("productForm") @Validated ProductForm productForm, //
@@ -110,7 +134,6 @@ public class AdminController {
             productDAO.save(productForm);
         } catch (Exception e) {
             model.addAttribute("errorMessage", "");
-            // Show product form.
             return "product";
         }
 

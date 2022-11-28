@@ -12,7 +12,6 @@ create table ACCOUNTS
 alter table ACCOUNTS
   add primary key (USER_NAME) ;
 ---------------------------------------
-
 create table PRODUCTS
 (
   CODE        VARCHAR(20) not null,
@@ -25,7 +24,6 @@ create table PRODUCTS
 alter table PRODUCTS
   add primary key (CODE) ;
 ---------------------------------------
--- Create table
 create table ORDERS
 (
   ID               VARCHAR(50) not null,
@@ -42,8 +40,6 @@ alter table ORDERS
 alter table ORDERS
   add constraint ORDER_UK unique (ORDER_NUM) ;
 ---------------------------------------
-
--- Create table
 create table ORDER_DETAILS
 (
   ID         VARCHAR(50) not null,
@@ -53,7 +49,6 @@ create table ORDER_DETAILS
   ORDER_ID   VARCHAR(50) not null,
   PRODUCT_ID VARCHAR(20) not null
 ) ;
---  
 alter table ORDER_DETAILS
   add primary key (ID) ;
 alter table ORDER_DETAILS
@@ -62,28 +57,30 @@ alter table ORDER_DETAILS
 alter table ORDER_DETAILS
   add constraint ORDER_DETAIL_PROD_FK foreign key (PRODUCT_ID)
   references PRODUCTS (CODE);
-
 ---------------------------------------  
 insert into Accounts (USER_NAME, ACTIVE, ENCRYTED_PASSWORD, USER_ROLE)
-values ('employee1', true,
+values ('employee', true,
 '$2a$10$PrI5Gk9L.tSZiW9FXhTS8O8Mz9E97k2FZbFvGFFaSsiTUIl.TCrFu', 'ROLE_EMPLOYEE');
 
 insert into Accounts (USER_NAME, ACTIVE, ENCRYTED_PASSWORD, USER_ROLE)
-values ('manager1', true,
+values ('admin', true,
 '$2a$10$PrI5Gk9L.tSZiW9FXhTS8O8Mz9E97k2FZbFvGFFaSsiTUIl.TCrFu', 'ROLE_MANAGER');
-
 ----------------
-insert into products (CODE, NAME, PRICE, CREATE_DATE)
-values ('S001', 'Core Java', 100, current_timestamp);
-
-insert into products (CODE, NAME, PRICE, CREATE_DATE)
-values ('S002', 'Spring for Beginners', 50, current_timestamp);
-
-insert into products (CODE, NAME, PRICE, CREATE_DATE)
-values ('S003', 'Swift for Beginners', 120, current_timestamp);
-
-insert into products (CODE, NAME, PRICE, CREATE_DATE)
-values ('S004', 'Oracle XML Parser', 120, current_timestamp);
-
-insert into products (CODE, NAME, PRICE, CREATE_DATE)
-values ('S005', 'CSharp Tutorial for Beginers', 110, current_timestamp);
+INSERT INTO products
+(code, image, "name", price, create_date)
+VALUES('S002', NULL, 'GTX 750 Ti', 50.0, '2022-11-26 12:14:25.445');
+INSERT INTO products
+(code, image, "name", price, create_date)
+VALUES('S003', NULL, 'GTX 1080', 120.0, '2022-11-26 12:14:25.450');
+INSERT INTO products
+(code, image, "name", price, create_date)
+VALUES('S004', NULL, 'RTX 3060 Ti', 120.0, '2022-11-26 12:14:25.457');
+INSERT INTO products
+(code, image, "name", price, create_date)
+VALUES('S005', NULL, 'RTX 2080', 110.0, '2022-11-26 12:14:25.462');
+INSERT INTO products
+(code, image, "name", price, create_date)
+VALUES('S001', NULL, 'RTX 2060 Super', 100.0, '2022-11-26 12:14:25.430');
+INSERT INTO products
+(code, image, "name", price, create_date)
+VALUES('12231', NULL, 'RTX 3090', 300.0, '2022-11-26 12:20:20.533');

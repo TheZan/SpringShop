@@ -1,8 +1,7 @@
 package OnlineShopProject.OnlineShop.dao;
 
 import OnlineShopProject.OnlineShop.entity.Account;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import OnlineShopProject.OnlineShop.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,13 +9,21 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @Repository
 public class AccountDAO {
+    @Autowired
+    private AccountRepository accountRepository;
 
-    //@Autowired
-    private SessionFactory sessionFactory;
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean addAccount(Account account) {
+        if(account != null){
+            Boolean isDuplicated = accountRepository.findAccountByUserName(account.getUserName()) != null;
 
-    public Account findAccount(String userName) {
-        Session session = this.sessionFactory.getCurrentSession();
-        return session.find(Account.class, userName);
+            if(!isDuplicated){
+                accountRepository.save(account);
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }

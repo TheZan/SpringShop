@@ -1,6 +1,5 @@
 package OnlineShopProject.OnlineShop.repository;
 
-import OnlineShopProject.OnlineShop.entity.Account;
 import OnlineShopProject.OnlineShop.entity.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

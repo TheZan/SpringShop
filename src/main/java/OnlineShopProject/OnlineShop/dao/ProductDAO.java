@@ -1,22 +1,17 @@
 package OnlineShopProject.OnlineShop.dao;
 
-import java.io.IOException;
-import java.util.Date;
-import java.util.List;
-
-import javax.persistence.NoResultException;
-
 import OnlineShopProject.OnlineShop.entity.Product;
 import OnlineShopProject.OnlineShop.form.ProductForm;
-import OnlineShopProject.OnlineShop.model.ProductInfo;
 import OnlineShopProject.OnlineShop.repository.ProductRepository;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.NoResultException;
+import java.io.IOException;
+import java.util.Date;
+import java.util.List;
 
 @Transactional
 @Repository
@@ -32,14 +27,6 @@ public class ProductDAO {
         } catch (NoResultException e) {
             return null;
         }
-    }
-
-    public ProductInfo findProductInfo(String code) {
-        Product product = this.findProduct(code);
-        if (product == null) {
-            return null;
-        }
-        return new ProductInfo(product.getCode(), product.getName(), product.getPrice());
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
@@ -77,7 +64,6 @@ public class ProductDAO {
     }
 
     public List<Product> queryProducts(int page, int maxResult, int maxNavigationPage, String likeName) {
-
         if(likeName.isEmpty()){
             return  productRepository.findAll();
         }

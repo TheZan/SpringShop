@@ -5,12 +5,8 @@ import OnlineShopProject.OnlineShop.model.CartInfo;
 import javax.servlet.http.HttpServletRequest;
 
 public class Utils {
-
-    // Products in the cart, stored in Session.
     public static CartInfo getCartInSession(HttpServletRequest request) {
-
         CartInfo cartInfo = (CartInfo) request.getSession().getAttribute("myCart");
-
 
         if (cartInfo == null) {
             cartInfo = new CartInfo();
@@ -32,5 +28,4 @@ public class Utils {
     public static CartInfo getLastOrderedCartInSession(HttpServletRequest request) {
         return (CartInfo) request.getSession().getAttribute("lastOrderedCart");
     }
-
 }
