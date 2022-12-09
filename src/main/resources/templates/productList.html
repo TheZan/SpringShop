@@ -23,9 +23,11 @@
                     <li>Код: <span th:utext="${prodInfo.getCode()}"></span></li>
                     <li>Название: <span th:utext="${prodInfo.getName()}"></span></li>
                     <li>Цена: <span th:utext="${#numbers.formatDecimal(prodInfo.getPrice(),3,2,'COMMA')}"></span></li>
-                    <li>
-                        <a class="btn btn-success" th:href="@{|/buyProduct?code=${prodInfo.getCode()}|}">Купить</a>
-                    </li>
+                    <th:block sec:authorize="hasAnyRole('ROLE_EMPLOYEE')">
+                        <li>
+                            <a class="btn btn-success" th:href="@{|/buyProduct?code=${prodInfo.getCode()}|}">Купить</a>
+                        </li>
+                    </th:block>
                     <th:block sec:authorize="hasAuthority('ROLE_MANAGER')">
                         <li>
                             <a style="color:red;"
