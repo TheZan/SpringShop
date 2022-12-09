@@ -76,7 +76,7 @@ public class AdminController {
                 return "registration";
             }
         } catch (Exception e) {
-            model.addAttribute("errorMessage", "");
+            model.addAttribute("errorMessage", e.getMessage());
             return "registration";
         }
 
@@ -87,10 +87,6 @@ public class AdminController {
     public String accountInfo(Model model) {
 
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        System.out.println(userDetails.getPassword());
-        System.out.println(userDetails.getUsername());
-        System.out.println(userDetails.isEnabled());
-
         model.addAttribute("userDetails", userDetails);
         return "accountInfo";
     }

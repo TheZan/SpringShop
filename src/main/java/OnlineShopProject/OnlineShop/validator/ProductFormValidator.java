@@ -13,8 +13,6 @@ public class ProductFormValidator implements Validator {
 
     @Autowired
     private ProductDAO productDAO;
-
-    // This validator only checks for the ProductForm.
     @Override
     public boolean supports(Class<?> clazz) {
         return clazz == ProductForm.class;
@@ -24,7 +22,6 @@ public class ProductFormValidator implements Validator {
     public void validate(Object target, Errors errors) {
         ProductForm productForm = (ProductForm) target;
 
-        // Check the fields of ProductForm.
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "code", "NotEmpty.productForm.code");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "NotEmpty.productForm.name");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "price", "NotEmpty.productForm.price");

@@ -64,13 +64,9 @@ public class MainController {
 
     @RequestMapping({ "/productList" })
     public String listProductHandler(Model model, //
-                                     @RequestParam(value = "name", defaultValue = "") String likeName,
-                                     @RequestParam(value = "page", defaultValue = "1") int page) {
-        final int maxResult = 5;
-        final int maxNavigationPage = 10;
+                                     @RequestParam(value = "name", defaultValue = "") String likeName) {
 
-        var result = productDAO.queryProducts(page, //
-                maxResult, maxNavigationPage, likeName);
+        var result = productDAO.queryProducts(likeName);
 
         model.addAttribute("products", result);
         return "productList";
@@ -155,7 +151,6 @@ public class MainController {
 
         if (result.hasErrors()) {
             customerForm.setValid(false);
-            // Forward to reenter customer info.
             return "shoppingCartCustomer";
         }
 

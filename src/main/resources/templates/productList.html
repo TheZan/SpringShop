@@ -26,7 +26,6 @@
                     <li>
                         <a class="btn btn-success" th:href="@{|/buyProduct?code=${prodInfo.getCode()}|}">Купить</a>
                     </li>
-                    <!-- For Manager edit Product -->
                     <th:block sec:authorize="hasAuthority('ROLE_MANAGER')">
                         <li>
                             <a style="color:red;"

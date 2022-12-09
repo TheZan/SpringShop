@@ -63,7 +63,7 @@ public class ProductDAO {
         }
     }
 
-    public List<Product> queryProducts(int page, int maxResult, int maxNavigationPage, String likeName) {
+    public List<Product> queryProducts(String likeName) {
         if(likeName.isEmpty()){
             return  productRepository.findAll();
         }
